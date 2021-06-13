@@ -5,7 +5,7 @@ package com.elirex.algorithms.fundamentals
  */
 interface Bag<Item> : Iterable<Item> {
     /**
-     * Adds the item ot the bag.
+     * Adds the item to the bag.
      * @param [item] the item to add to the bag.
      */
     fun add(item: Item)
