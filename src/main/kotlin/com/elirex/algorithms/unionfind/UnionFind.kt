@@ -6,8 +6,8 @@ abstract class UnionFind(
     /**
      * Represents the number of sets
      */
-    protected var count: Int
-        private set
+    var count: Int
+        protected set
     protected var id: IntArray
 
     init {
@@ -16,7 +16,7 @@ abstract class UnionFind(
             i -> i
         }
     }
-    
+
     abstract fun union(p: Int, q: Int)
 
     abstract fun find(p: Int): Int
