@@ -53,4 +53,20 @@ class UnionFindTest {
         assertEquals(2, uf.count)
     }
 
+    @Test
+    fun `weighted quick union`() {
+        // given
+        // when
+        val uf: UnionFind = WeightedQuickUnion(tinyCase.first)
+        tinyCase.second.forEach { (p, q) ->
+            if (uf.find(p) == uf.find(q)) {
+                return@forEach
+            }
+            uf.union(p, q)
+        }
+
+        // then
+        assertEquals(2, uf.count)
+    }
+
 }
