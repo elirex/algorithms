@@ -69,4 +69,20 @@ class UnionFindTest {
         assertEquals(2, uf.count)
     }
 
+    @Test
+    fun `path compression quick union`() {
+        // given
+        // when
+        val uf: UnionFind = PathCompressionQuickUnion(tinyCase.first)
+        tinyCase.second.forEach { (p, q) ->
+            if (uf.find(p) == uf.find(q)) {
+                return@forEach
+            }
+            uf.union(p, q)
+        }
+
+        // then
+        assertEquals(2, uf.count)
+    }
+
 }
