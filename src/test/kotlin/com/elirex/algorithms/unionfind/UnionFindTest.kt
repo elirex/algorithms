@@ -27,7 +27,7 @@ class UnionFindTest {
         // when
         val uf: UnionFind = QuickFind(tinyCase.first)
         tinyCase.second.forEach { (p, q) ->
-            if (uf.find(p) == uf.find(q)) {
+            if (uf.connected(p, q)) {
                 return@forEach
             }
             uf.union(p, q)
@@ -43,7 +43,7 @@ class UnionFindTest {
         // when
         val uf: UnionFind = QuickUnion(tinyCase.first)
         tinyCase.second.forEach { (p, q) ->
-            if (uf.find(p) == uf.find(q)) {
+            if (uf.connected(p, q)) {
                 return@forEach
             }
             uf.union(p, q)
@@ -59,7 +59,7 @@ class UnionFindTest {
         // when
         val uf: UnionFind = WeightedQuickUnion(tinyCase.first)
         tinyCase.second.forEach { (p, q) ->
-            if (uf.find(p) == uf.find(q)) {
+            if (uf.connected(p, q)) {
                 return@forEach
             }
             uf.union(p, q)
@@ -75,7 +75,24 @@ class UnionFindTest {
         // when
         val uf: UnionFind = PathCompressionQuickUnion(tinyCase.first)
         tinyCase.second.forEach { (p, q) ->
-            if (uf.find(p) == uf.find(q)) {
+            if (uf.connected(p, q)) {
+                return@forEach
+            }
+            uf.union(p, q)
+        }
+
+        // then
+        assertEquals(2, uf.count)
+    }
+
+
+    @Test
+    fun `weight by height quick union`() {
+        // given
+        // when
+        val uf: UnionFind = WeightedByHeightQuickUnion(tinyCase.first)
+        tinyCase.second.forEach { (p, q) ->
+            if (uf.connected(p, q)) {
                 return@forEach
             }
             uf.union(p, q)
