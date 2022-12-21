@@ -11,9 +11,17 @@ class SortingTest {
     }
 
     @Test
-    fun `selection sorting`() {
+    fun `selection sort`() {
         val array = input.clone()
         Selection.sort(array)
+        assertContentEquals(expected, array)
+
+    }
+
+    @Test
+    fun `insertion sort`() {
+        val array = input.clone()
+        Insertion.sort(array)
         assertContentEquals(expected, array)
 
     }
