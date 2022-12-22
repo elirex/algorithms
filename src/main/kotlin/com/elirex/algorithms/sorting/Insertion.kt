@@ -8,16 +8,10 @@ object Insertion {
     fun <T : Comparable<T>> sort(array: Array<T>, comparator: Comparator<T>? = null) {
         val n = array.size
         for (i in 1 until n) {
-            var j = i
-            while (j > 0 && array[j] < array[j - 1]) {
-                if (comparator != null) {
-                    less(array[j], array[j - 1], comparator)
-                } else {
-                    less(array[j], array[j - 1])
-                }.let {
-                    if (it) {
-                        swap(array, j, --j)
-                    }
+            for (j in i downTo 1) {
+                if ((comparator != null && less(array[j], array[j - 1], comparator))
+                    || less(array[j], array[j - 1])) {
+                    swap(array, j, j - 1)
                 }
             }
         }
