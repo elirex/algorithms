@@ -15,8 +15,8 @@ object Shell {
 
         while (h >= 1) {
             for (i in h until n) {
-                for (j in i downTo  h step h) {
-                    if (less(array[j], array[j - 1], comparator)) {
+                for (j in i downTo h step h) {
+                    if (less(array[j], array[j - h], comparator)) {
                         swap(array, j, j - h)
                     }
                 }
