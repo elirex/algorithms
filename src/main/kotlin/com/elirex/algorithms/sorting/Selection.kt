@@ -10,8 +10,7 @@ object Selection {
         for (i in 0 until n) {
             var min = i
             for (j in i + 1 until n) {
-                if ((comparator != null && less(array[j], array[min], comparator)) ||
-                    less(array[j], array[min])) {
+                if (less(array[j], array[min], comparator)) {
                     min = j
                 }
             }

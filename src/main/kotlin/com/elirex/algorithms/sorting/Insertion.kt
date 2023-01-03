@@ -9,8 +9,7 @@ object Insertion {
         val n = array.size
         for (i in 1 until n) {
             for (j in i downTo 1) {
-                if ((comparator != null && less(array[j], array[j - 1], comparator))
-                    || less(array[j], array[j - 1])) {
+                if (less(array[j], array[j - 1], comparator)) {
                     swap(array, j, j - 1)
                 }
             }

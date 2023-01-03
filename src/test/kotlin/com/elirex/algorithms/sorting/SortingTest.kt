@@ -25,4 +25,12 @@ class SortingTest {
         assertContentEquals(expected, array)
 
     }
+
+    @Test
+    fun `shell sort`() {
+        val array = input.clone()
+        Shell.sort(array)
+        assertContentEquals(expected, array)
+
+    }
 }
