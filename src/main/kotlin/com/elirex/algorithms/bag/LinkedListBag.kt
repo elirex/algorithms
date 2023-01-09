@@ -1,7 +1,7 @@
 package com.elirex.algorithms.bag
 
 
-class LinkedBag<Item> : Bag<Item> {
+class LinkedListBag<Item> : Bag<Item> {
 
     private var first: Node<Item>? = null
     private var size: Int = 0
@@ -15,14 +15,14 @@ class LinkedBag<Item> : Bag<Item> {
 
     override fun size(): Int = size
 
-    override fun iterator(): Iterator<Item> = LinkedIterator()
+    override fun iterator(): Iterator<Item> = LinkedListIterator()
 
     private data class Node<Item>(
         val item: Item,
         var next: Node<Item>? = null
     )
 
-    private inner class LinkedIterator : Iterator<Item> {
+    private inner class LinkedListIterator : Iterator<Item> {
         private var current: Node<Item>? = first
 
         override fun hasNext(): Boolean = current != null
