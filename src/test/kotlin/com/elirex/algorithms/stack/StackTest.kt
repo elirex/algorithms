@@ -16,9 +16,13 @@ class StackTest {
             push("C")
             push("D")
             push("E")
+            push("F")
+            push("G")
+            push("H")
+            push("I")
         }
 
-        listOf("E", "D", "C", "B", "A").forEach { expect: String ->
+        listOf("I", "H", "G", "F", "E", "D", "C", "B", "A").forEach { expect: String ->
             assertEquals(expect, stack.pop())
         }
     }
@@ -41,7 +45,7 @@ class StackTest {
     }
 
     @Test
-    fun `resize array bag`() {
+    fun `resize array stack`() {
         val stack = ArrayStack<String>()
         assertEquals(8, stack.capacity())
         stack.resize(10)

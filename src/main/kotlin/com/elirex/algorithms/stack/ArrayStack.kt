@@ -31,8 +31,8 @@ class ArrayStack<Item>(
             throw NoSuchElementException("Stack is empty")
         }
         val item = array[--size]
-        if (size > 0 && size > DEFAULT_CAPACITY && size == array.size / 4) {
-            resize(size / 2)
+        if (size > 0 && size == array.size / 4) {
+            resize(array.size / 2)
         }
         return item
     }
