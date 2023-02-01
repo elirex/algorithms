@@ -85,4 +85,19 @@ class SortingTest {
         assertContentEquals(expectedInt.reversedArray(), array)
 
     }
+
+    @Test
+    fun `merge sort`() {
+        val array = inputString.clone()
+        Merge.sort(array)
+        assertContentEquals(expectedString, array)
+    }
+
+    @Test
+    fun `merge sort with comparator`() {
+        val array = inputInt.clone()
+        Merge.sort(array) { o1, o2 -> o2 - o1 }
+        assertContentEquals(expectedInt.reversedArray(), array)
+
+    }
 }
