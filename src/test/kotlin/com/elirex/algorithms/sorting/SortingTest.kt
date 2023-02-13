@@ -115,4 +115,19 @@ class SortingTest {
         assertContentEquals(expectedInt.reversedArray(), array)
 
     }
+
+    @Test
+    fun `quick sort median-of-3`() {
+        val array = inputString.clone()
+        QuickMedianOf3.sort(array)
+        assertContentEquals(expectedString, array)
+    }
+
+    @Test
+    fun `quick sort median-of-3 with comparator`() {
+        val array = inputInt.clone()
+        QuickMedianOf3.sort(array) { o1, o2 -> o2 - o1 }
+        assertContentEquals(expectedInt.reversedArray(), array)
+
+    }
 }
