@@ -128,6 +128,19 @@ class SortingTest {
         val array = inputInt.clone()
         QuickMedianOf3.sort(array) { o1, o2 -> o2 - o1 }
         assertContentEquals(expectedInt.reversedArray(), array)
+    }
 
+    @Test
+    fun `quick sort 3-way`() {
+        val array = inputString.clone()
+        Quick3way.sort(array)
+        assertContentEquals(expectedString, array)
+    }
+
+    @Test
+    fun `quick sort 3-way with comparator`() {
+        val array = inputInt.clone()
+        Quick3way.sort(array) { o1, o2 -> o2 - o1 }
+        assertContentEquals(expectedInt.reversedArray(), array)
     }
 }

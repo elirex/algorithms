@@ -1,6 +1,7 @@
 package com.elirex.algorithms.sorting
 
 import com.elirex.algorithms.utils.less
+import com.elirex.algorithms.utils.shuffle
 import com.elirex.algorithms.utils.swap
 import kotlin.random.Random
 
@@ -64,16 +65,4 @@ object Quick {
 
         return j
     }
-
-
-    private fun <T> shuffle(array: Array<T>) {
-        val rand = Random(System.currentTimeMillis())
-        for (i in array.indices) {
-            val r = rand.nextInt(array.size - i)
-            val temp = array[i]
-            array[i] = array[r]
-            array[r] = temp
-        }
-    }
-
 }
