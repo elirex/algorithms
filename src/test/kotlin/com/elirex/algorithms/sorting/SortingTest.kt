@@ -143,4 +143,18 @@ class SortingTest {
         Quick3way.sort(array) { o1, o2 -> o2 - o1 }
         assertContentEquals(expectedInt.reversedArray(), array)
     }
+
+    @Test
+    fun `heap sort`() {
+        val array = inputString.clone()
+        Heap.sort(array)
+        assertContentEquals(expectedString, array)
+    }
+
+    @Test
+    fun `heap sort with comparator`() {
+        val array = inputInt.clone()
+        Heap.sort(array) { o1, o2 -> o2 - o1}
+        assertContentEquals(expectedInt.reversedArray(), array)
+    }
 }
