@@ -31,7 +31,7 @@ class UnorderedArrayPQ<Key: Comparable<Key>>(
         return pq[--size]
     }
 
-    override fun peek(): Key = pq[size]
+    override fun peek(): Key = pq[size - 1]
 
     override fun isEmpty(): Boolean = size == 0
 

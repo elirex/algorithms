@@ -30,7 +30,7 @@ class OrderedArrayPQ<Key: Comparable<Key>>(
     }
 
     override fun peek(): Key {
-        return pq[size]
+        return pq[size - 1]
     }
 
     override fun isEmpty(): Boolean = size == 0
