@@ -26,6 +26,28 @@ object Quick {
         sort(array, j + 1, hi, comparator)
     }
 
+    fun <T: Comparable<T>> select(
+        array: Array<T>,
+        k: Int,
+        comparator: Comparator<T>? = null
+    ): T {
+        if (k < 0 || k >= array.size) {
+            throw IllegalArgumentException("The k is not between 0 and ${array.size}")
+        }
+        array.shuffle()
+        var lo = 0
+        var hi = array.size - 1
+        while (lo < hi) {
+            val v = partition(array, lo, hi, comparator)
+            when {
+                v > k -> hi = v - 1
+                v < k -> lo = v + 1
+                else -> return array[v];
+            }
+        }
+        return array[lo]
+    }
+
     private fun <T: Comparable<T>> partition(
         array: Array<T>,
         lo: Int,

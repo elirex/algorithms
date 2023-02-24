@@ -2,6 +2,7 @@ package com.elirex.algorithms.sorting
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 class SortingTest {
 
@@ -142,6 +143,13 @@ class SortingTest {
         val array = inputInt.clone()
         Quick3way.sort(array) { o1, o2 -> o2 - o1 }
         assertContentEquals(expectedInt.reversedArray(), array)
+    }
+
+    @Test
+    fun `quick select`() {
+        val array = inputString.clone()
+        val target = Quick.select(array, 5)
+        assertEquals("L", target)
     }
 
     @Test
