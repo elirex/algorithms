@@ -90,7 +90,7 @@ class PriorityQueueTest {
         TestCase.Size(6),
     )
 
-    sealed interface TestCase {
+    private sealed interface TestCase {
         data class Push(
             val data: String,
             val expected: Int
