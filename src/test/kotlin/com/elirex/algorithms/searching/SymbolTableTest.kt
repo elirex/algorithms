@@ -22,6 +22,23 @@ class SymbolTableTest {
         }
     }
 
+    @Test
+    fun `binary search symbol table`() {
+        val st = BinarySearchST<String, Int>()
+        input.forEach { (k, v) ->
+            st.put(k, v)
+        }
+
+        generateTestCases().forEach {
+            when (it) {
+                is TestCase.Rank -> assertEquals(it.expected, st.rank(it.key))
+                is TestCase.Select -> assertEquals(it.expected, st.select(it.k))
+                is TestCase.RangedKeys -> assertEquals(it.expected, it.range.run { st.keys(first, second).toList() })
+                is TestCase.RangedSize -> assertEquals(it.expected, it.range.run { st.size(first, second) })
+            }
+        }
+    }
+
     private fun generateTestCases() = listOf(
         TestCase.Rank("E", 2),
         TestCase.Select(4, "L"),
