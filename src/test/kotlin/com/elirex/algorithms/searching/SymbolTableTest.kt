@@ -1,7 +1,9 @@
 package com.elirex.algorithms.searching
 
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class SymbolTableTest {
 
@@ -53,6 +55,20 @@ class SymbolTableTest {
                 is TestCase.RangedSize -> assertEquals(it.expected, it.range.run { st.size(first, second) })
             }
         }
+    }
+
+    @Test
+    fun `separate chaining hash symbol table`() {
+        val symbolTable = SeparateChainingHashST<String, Int>()
+        input.forEach { (key, value) ->
+            symbolTable.put(key, value)
+        }
+        assertTrue(symbolTable.contains("S"))
+        assertEquals(0,  symbolTable.get("S"))
+        assertEquals(12,  symbolTable.get("E"))
+        assertEquals(input.size, symbolTable.size)
+        symbolTable.delete("S")
+        assertFalse(symbolTable.contains("S"))
     }
 
     private fun generateTestCases() = listOf(

@@ -1,5 +1,7 @@
 package com.elirex.algorithms.searching
 
+import com.elirex.algorithms.queue.LinkedListQueue
+
 class SequentialSearchST<Key: Comparable<Key>, Value> : SymbolTable<Key, Value> {
     private var size: Int = 0
     private var first: Node<Key, Value>? = null
@@ -97,7 +99,13 @@ class SequentialSearchST<Key: Comparable<Key>, Value> : SymbolTable<Key, Value> 
     }
 
     override fun keys(): Iterable<Key> {
-        TODO("Not yet implemented")
+        val queue = LinkedListQueue<Key>()
+        var curr: Node<Key, Value>? = first
+        while (curr != null) {
+            queue.enqueue(curr.key)
+            curr = curr.next
+        }
+        return queue
     }
 
     override fun keys(low: Key, high: Key): Iterable<Key> {
