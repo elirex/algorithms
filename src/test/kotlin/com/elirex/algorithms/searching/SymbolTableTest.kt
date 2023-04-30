@@ -71,6 +71,20 @@ class SymbolTableTest {
         assertFalse(symbolTable.contains("S"))
     }
 
+    @Test
+    fun `linear probing hash symbol table`() {
+        val symbolTable = LinearProbingHashST<String, Int>()
+        input.forEach { (key, value) ->
+            symbolTable.put(key, value)
+        }
+        assertTrue(symbolTable.contains("S"))
+        assertEquals(0,  symbolTable.get("S"))
+        assertEquals(12,  symbolTable.get("E"))
+        assertEquals(input.size, symbolTable.size)
+        symbolTable.delete("S")
+        assertFalse(symbolTable.contains("S"))
+    }
+
     private fun generateTestCases() = listOf(
         TestCase.Rank("E", 2),
         TestCase.Select(4, "L"),
