@@ -58,24 +58,3 @@ class UndirectedGraph(
         }
     }
 }
-
-fun main() {
-    val g = UndirectedGraph(13).apply {
-        addEdge(0, 1)
-        addEdge(0, 2)
-        addEdge(0, 5)
-        addEdge(0, 6)
-        addEdge(3, 4)
-        addEdge(3, 5)
-        addEdge(4, 5)
-        addEdge(4, 6)
-        addEdge(7, 8)
-        addEdge(9, 10)
-        addEdge(9, 11)
-        addEdge(9, 12)
-        addEdge(11, 12)
-    }
-    println(g)
-
-
-}
