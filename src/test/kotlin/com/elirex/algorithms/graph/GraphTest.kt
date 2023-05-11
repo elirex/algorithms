@@ -1,5 +1,6 @@
 package com.elirex.algorithms.graph
 
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -7,7 +8,7 @@ class GraphTest {
 
     @Test
     fun `test undirected graph`() {
-        val graph = UndirectedGraph(13)
+        val graph = Graph(13)
         graph.apply {
             tingGraph.forEach { (v, w) ->
                 addEdge(v, w)
@@ -33,7 +34,42 @@ class GraphTest {
         assertEquals(expected, graph.toString())
     }
 
+    @Test
+    fun `test depth-first-search`() {
+        val graph = Graph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val search = DepthFirstSearch(graph, 0)
+        val markedVertices = mutableListOf<Int>()
+        for (v in 0 until graph.vertices) {
+            if (search.marked(v)) {
+                markedVertices.add(v)
+            }
+        }
+        assertEquals(listOf(0, 1, 2, 3, 4, 5, 6), markedVertices)
+        assertTrue(search.count != graph.vertices)
+    }
+
     companion object {
+        /*
+         *   0 -------- 6
+         *  | \ \      /
+         *  | 1  2    /
+         *  |        /
+         *  |  3    /
+         *  | /  \ /
+         *  5 --- 4
+         *
+         *  7 ---- 8
+         *
+         *   9 ----- 10
+         *  |  \
+         *  |   \
+         *  11 - 12
+         */
         val tingGraph = listOf(
             0 to 1,
             0 to 2,
