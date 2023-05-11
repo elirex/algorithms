@@ -3,14 +3,14 @@ package com.elirex.algorithms.graph
 import com.elirex.algorithms.bag.Bag
 import com.elirex.algorithms.bag.LinkedListBag
 
-class UndirectedGraph(
+class Graph(
     val vertices: Int
 ) {
 
     var edges: Int  = 0
         private set
 
-    private var adj: Array<Bag<Int>>
+    private val adj: Array<Bag<Int>>
 
     init {
         if (vertices < 0) {
@@ -27,7 +27,7 @@ class UndirectedGraph(
         adj[w].add(v)
     }
 
-    fun verticesAdjacent(v: Int): Iterable<Int> {
+    fun adjacent(v: Int): Iterable<Int> {
         validateVertex(v)
         return adj[v]
     }
