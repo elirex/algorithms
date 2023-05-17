@@ -31,7 +31,7 @@ class DepthFirstSearch(
 
     private fun validateVertex(v: Int) {
         val V = marked.size - 1
-        if (v < 0 || v >= V) {
+        if (v < 0 || v > V) {
             throw IllegalArgumentException("vertex $v is not in 0 to $V")
         }
     }

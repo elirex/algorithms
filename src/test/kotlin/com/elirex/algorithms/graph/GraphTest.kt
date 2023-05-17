@@ -97,6 +97,25 @@ class GraphTest {
         assertEquals(expected, sb.toString())
     }
 
+    @Test
+    fun `test breadth-first-search`() {
+        val graph = Graph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val search = BreadthFirstSearch(graph, 0)
+        val markedVertices = mutableListOf<Int>()
+        for (v in 0 until graph.vertices) {
+            if (search.marked(v)) {
+                markedVertices.add(v)
+            }
+        }
+        assertEquals(listOf(0, 1, 2, 3, 4, 5, 6), markedVertices)
+        assertTrue(search.count != graph.vertices)
+    }
+
     companion object {
         /*
          *   0 -------- 6
