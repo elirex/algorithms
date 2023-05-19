@@ -116,6 +116,50 @@ class GraphTest {
         assertTrue(search.count != graph.vertices)
     }
 
+    @Test
+    fun `test breadth-first-paths`() {
+        val graph = Graph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val source = 0
+        val bfs = BreadthFirstPaths(graph, source)
+        val sb = StringBuilder()
+        for (v in 0 until graph.vertices) {
+            sb.append("$source to $v: ")
+            if (bfs.hasPathTo(v)) {
+                bfs.pathTo(v)?.forEach { x ->
+                    if (x != source) {
+                        sb.append("-")
+                    }
+                    sb.append(x)
+                }
+            }
+            if (v != graph.vertices -1) {
+                sb.append('\n')
+            }
+        }
+        val expected =
+            """
+                0 to 0: 0
+                0 to 1: 0-1
+                0 to 2: 0-2
+                0 to 3: 0-5-3
+                0 to 4: 0-6-4
+                0 to 5: 0-5
+                0 to 6: 0-6
+                0 to 7: 
+                0 to 8: 
+                0 to 9: 
+                0 to 10: 
+                0 to 11: 
+                0 to 12: 
+            """.trimIndent()
+        assertEquals(expected, sb.toString())
+    }
+
     companion object {
         /*
          *   0 -------- 6
