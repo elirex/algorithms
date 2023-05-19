@@ -19,9 +19,9 @@ jobs:
       - name: Run unit test
         run: ./gradlew :test
 
-      - name: Run test report
+      - name: Generate test report
         uses: dorny/test-reporter@v1
         with:
-          name: JUnit
+          name: test report
           path: build/test-results/test/TEST-*.xml
           reporter: java-junit
