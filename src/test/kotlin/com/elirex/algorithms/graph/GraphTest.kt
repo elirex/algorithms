@@ -1,13 +1,16 @@
 package com.elirex.algorithms.graph
 
+import com.elirex.algorithms.queue.LinkedListQueue
+import com.elirex.algorithms.queue.Queue
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class GraphTest {
 
     @Test
-    fun `test undirected graph`() {
+    fun `undirected graph`() {
         val graph = Graph(13)
         graph.apply {
             tingGraph.forEach { (v, w) ->
@@ -35,7 +38,7 @@ class GraphTest {
     }
 
     @Test
-    fun `test depth-first-search`() {
+    fun `depth-first-search`() {
         val graph = Graph(13)
         graph.apply {
             tingGraph.forEach { (v, w) ->
@@ -54,7 +57,7 @@ class GraphTest {
     }
 
     @Test
-    fun `test depth-first-paths`() {
+    fun `depth-first-paths`() {
         val graph = Graph(13)
         graph.apply {
             tingGraph.forEach { (v, w) ->
@@ -98,7 +101,7 @@ class GraphTest {
     }
 
     @Test
-    fun `test breadth-first-search`() {
+    fun `breadth-first-search`() {
         val graph = Graph(13)
         graph.apply {
             tingGraph.forEach { (v, w) ->
@@ -117,7 +120,7 @@ class GraphTest {
     }
 
     @Test
-    fun `test breadth-first-paths`() {
+    fun `breadth-first-paths`() {
         val graph = Graph(13)
         graph.apply {
             tingGraph.forEach { (v, w) ->
@@ -158,6 +161,22 @@ class GraphTest {
                 0 to 12: 
             """.trimIndent()
         assertEquals(expected, sb.toString())
+    }
+
+    @Test
+    fun `connected components`() {
+        val graph = Graph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val cc = ConnectedComponents(graph)
+        assertEquals(3, cc.count)
+        val components: Array<Array<Int>> = cc.components(graph)
+        assertContentEquals(intArrayOf(0, 1, 2, 3, 4, 5, 6), components[0].toIntArray())
+        assertContentEquals(intArrayOf(7, 8), components[1].toIntArray())
+        assertContentEquals(intArrayOf(9, 10, 11, 12), components[2].toIntArray())
     }
 
     companion object {
