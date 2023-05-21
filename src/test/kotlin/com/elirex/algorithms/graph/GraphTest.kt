@@ -2,6 +2,7 @@ package com.elirex.algorithms.graph
 
 import com.elirex.algorithms.queue.LinkedListQueue
 import com.elirex.algorithms.queue.Queue
+import com.elirex.algorithms.utils.shuffle
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -231,6 +232,37 @@ class GraphTest {
         }
         val bridge = Bridge(graph)
         assertEquals(5, bridge.components)
+    }
+
+    @Test
+    fun `biconnected (cut vertex)`() {
+        val graph = Graph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val expectedResults = listOf(
+            true,  // 0
+            false, // 1
+            false, // 2
+            false, // 3
+            false, // 4
+            false, // 5
+            false, // 6
+            false, // 7
+            false, // 8
+            true,  // 9
+            false, // 10
+            false, // 11
+            false, // 12
+        )
+        val biconnected = Biconnected(graph)
+        for (v in 0 until graph.vertices) {
+            val actual = biconnected.isArticulation(v)
+            val expected = expectedResults[v]
+            assertEquals(expected, actual, "$v should be $expected")
+        }
     }
 
 
