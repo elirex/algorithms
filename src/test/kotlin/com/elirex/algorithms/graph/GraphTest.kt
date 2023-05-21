@@ -178,6 +178,25 @@ class GraphTest {
         assertContentEquals(intArrayOf(7, 8), components[1].toIntArray())
         assertContentEquals(intArrayOf(9, 10, 11, 12), components[2].toIntArray())
     }
+    @Test
+    fun `cycle detection`() {
+        val graph = Graph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val finder = Cycle(graph)
+        assertTrue(finder.hasCycle())
+
+        finder.cycle?.run {
+            val cycle = Array<Int>(this.size()) { 0 }
+            forEachIndexed { index, v ->
+                cycle[index] = v
+            }
+            assertContentEquals(intArrayOf(3, 4, 5, 3), cycle.toIntArray())
+        }
+    }
 
     companion object {
         /*
