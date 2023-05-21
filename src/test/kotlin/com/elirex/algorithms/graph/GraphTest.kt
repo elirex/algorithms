@@ -2,6 +2,7 @@ package com.elirex.algorithms.graph
 
 import com.elirex.algorithms.queue.LinkedListQueue
 import com.elirex.algorithms.queue.Queue
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import kotlin.test.assertContentEquals
@@ -178,6 +179,7 @@ class GraphTest {
         assertContentEquals(intArrayOf(7, 8), components[1].toIntArray())
         assertContentEquals(intArrayOf(9, 10, 11, 12), components[2].toIntArray())
     }
+
     @Test
     fun `cycle detection`() {
         val graph = Graph(13)
@@ -196,6 +198,27 @@ class GraphTest {
             }
             assertContentEquals(intArrayOf(3, 4, 5, 3), cycle.toIntArray())
         }
+    }
+
+    @Test
+    fun `two colorability`() {
+        val graph = Graph(9)
+        graph.apply {
+            bipartiteGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val bipartite = Bipartite(graph)
+        assertTrue(bipartite.isBipartite)
+        assertFalse(bipartite.color(0))
+        assertFalse(bipartite.color(1))
+        assertFalse(bipartite.color(2))
+        assertFalse(bipartite.color(3))
+        assertFalse(bipartite.color(4))
+        assertTrue(bipartite.color(5))
+        assertTrue(bipartite.color(6))
+        assertTrue(bipartite.color(7))
+        assertTrue(bipartite.color(8))
     }
 
     companion object {
@@ -229,6 +252,17 @@ class GraphTest {
             9 to 11,
             9 to 12,
             11 to 12,
+        )
+
+        val bipartiteGraph = listOf(
+            0 to 5,
+            0 to 8,
+            1 to 7,
+            2 to 5,
+            2 to 6,
+            3 to 7,
+            3 to 8,
+            4 to 8
         )
     }
 }
