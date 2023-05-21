@@ -221,6 +221,19 @@ class GraphTest {
         assertTrue(bipartite.color(8))
     }
 
+    @Test
+    fun `bridge (cut-edge)`() {
+        val graph = Graph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val bridge = Bridge(graph)
+        assertEquals(5, bridge.components)
+    }
+
+
     companion object {
         /*
          *   0 -------- 6
