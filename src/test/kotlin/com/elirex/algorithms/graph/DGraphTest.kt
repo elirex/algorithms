@@ -1,7 +1,10 @@
 package com.elirex.algorithms.graph
 
+import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestFactory
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 class DGraphTest {
 
@@ -33,8 +36,54 @@ class DGraphTest {
         }
     }
 
+    @TestFactory
+    fun `directed depth-first-search`(): List<DynamicTest> {
+        val graph = DGraph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        data class Case(
+            val sourceVertex: Int,
+            val expected: List<Int>, // expected reachable vertices
+        )
+        val testCases = listOf(
+            Case(
+                sourceVertex = 1,
+                expected = listOf(1)
+            ),
+            Case(
+                sourceVertex = 2,
+                expected = listOf(0, 1, 2, 3, 4, 5)
+            ),
+        )
+        return testCases.mapIndexed { i, (source, expected) ->
+            DynamicTest.dynamicTest("case $i should be $expected") {
+                val dfs = DirectedDepthFirstSearch(graph, source)
+                val actual = mutableListOf<Int>()
+                for (v in 0 until graph.vertices) {
+                    if (dfs.marked(v)) {
+                        actual.add(v)
+                    }
+                }
+                assertEquals(expected, actual)
+            }
+        }
+    }
+
     companion object {
         /*
+         * 0 ---------→ 6 ←-- 7 ←----8
+         * |  ↘ ↖       | \
+         * |   1  \     |  \
+         * |       2    |   ↘
+         * |      /     |    9 ----→ 10
+         * |     ↙      |    | \
+         * |    3       /    |  \
+         * ↓  ↙  ↘     /     ↓    ↘
+         * 5 ---→ 4 ←--     11 -→ 12
+         *
          * 0: 5 1
          * 1:
          * 2: 0 3
