@@ -17,22 +17,22 @@ class DGraphTest {
             }
         }
         val expected = listOf(
-            listOf(1, 5), // 0
-            listOf(), // 1
-            listOf(3, 0), // 2
-            listOf(2, 5), // 3
-            listOf(2, 3), // 4
+            listOf(5, 1), // 0
+            emptyList(), // 1
+            listOf(0, 3), // 2
+            listOf(5, 2), // 3
+            listOf(3, 2), // 4
             listOf(4), // 5
-            listOf(0, 8, 4, 9), // 6
-            listOf(9, 6), // 7
+            listOf(9, 4, 8, 0), // 6
+            listOf(6, 9), // 7
             listOf(6), // 8
-            listOf(10, 11), // 9
+            listOf(11, 10), // 9
             listOf(12), // 10
-            listOf(12, 4), // 11
+            listOf(4, 12), // 11
             listOf(9), // 12
         )
         for (v in 0 until graph.vertices) {
-            assertContentEquals(expected[v], graph.adjacent(v))
+            assertContentEquals(expected[v], graph.adjacent(v), "$v vertex")
         }
     }
 
@@ -72,18 +72,39 @@ class DGraphTest {
         }
     }
 
+    @Test
+    fun `depth-first directed paths`() {
+        val graph = DGraph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+
+        val expecteds= listOf(
+            listOf(3, 5, 4, 2, 0), // 3 to 0
+            listOf(3, 5, 4, 2, 0, 1), // 3 to 1
+            listOf(3, 5, 4, 2), // 3 to 2
+            listOf(3), // 3 to 3
+            listOf(3, 5, 4), // 3 to 4
+            listOf(3, 5), // 3 to 5
+            emptyList(), // 3 to 6
+            emptyList(), // 3 to 7
+            emptyList(), // 3 to 8
+            emptyList(), // 3 to 9
+            emptyList(), // 3 to 10
+            emptyList(), // 3 to 11
+            emptyList(), // 3 to 12
+        )
+        val dfs = DepthFirstDirectedPaths(graph, 3)
+        for (v in 0 until graph.vertices) {
+            val actual = dfs.pathTo(v)?.toList() ?: emptyList()
+            assertContentEquals(expecteds[v], actual, "3 to $v")
+        }
+    }
+
     companion object {
         /*
-         * 0 ---------→ 6 ←-- 7 ←----8
-         * |  ↘ ↖       | \
-         * |   1  \     |  \
-         * |       2    |   ↘
-         * |      /     |    9 ----→ 10
-         * |     ↙      |    | \
-         * |    3       /    |  \
-         * ↓  ↙  ↘     /     ↓    ↘
-         * 5 ---→ 4 ←--     11 -→ 12
-         *
          * 0: 5 1
          * 1:
          * 2: 0 3
@@ -99,27 +120,27 @@ class DGraphTest {
          * 12: 9
          */
         val tingGraph = listOf(
-            0 to 5,
             0 to 1,
-            2 to 0,
+            0 to 5,
             2 to 3,
-            3 to 5,
+            2 to 0,
             3 to 2,
-            4 to 3,
+            3 to 5,
             4 to 2,
-            5 to 4,
-            6 to 9,
-            6 to 4,
-            6 to 8,
+            4 to 3,
             6 to 0,
-            7 to 6,
+            6 to 8,
+            6 to 4,
+            6 to 9,
+            5 to 4,
             7 to 9,
+            7 to 6,
             8 to 6,
-            9 to 11,
             9 to 10,
+            9 to 11,
             10 to 12,
-            11 to 4,
             11 to 12,
+            11 to 4,
             12 to 9
         )
     }
