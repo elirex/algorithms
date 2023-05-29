@@ -19,23 +19,21 @@ class Cycle(
 
             for (v in 0 until  graph.vertices) {
                 if (!marked[v]) {
-                    dfs(graph, - 1, v)
+                    dfs(graph, v, -1)
                 }
             }
         }
     }
 
-    private fun dfs(graph: Graph, u: Int, v: Int) {
+    private fun dfs(graph: Graph, v: Int, u: Int) {
         marked[v] = true
         graph.adjacent(v).forEach { w ->
-            // short circuit if cycle already found
             if (cycle != null) {
                 return
             }
-
             if (!marked[w]) {
                 edgeTo[w] = v
-                dfs(graph, v, w)
+                dfs(graph, w, v)
             } else if (w != u) {
                 cycle = LinkedListStack<Int>().apply {
                     var x = v

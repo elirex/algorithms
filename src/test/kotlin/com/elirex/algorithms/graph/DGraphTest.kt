@@ -103,6 +103,43 @@ class DGraphTest {
         }
     }
 
+    @TestFactory
+    fun `directed breadth-first-search`(): List<DynamicTest> {
+        val graph = DGraph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        data class Case(
+            val sourceVertex: Int,
+            val expected: List<Int>, // expected reachable vertices
+        )
+        val testCases = listOf(
+            Case(
+                sourceVertex = 1,
+                expected = listOf(1)
+            ),
+            Case(
+                sourceVertex = 2,
+                expected = listOf(0, 1, 2, 3, 4, 5)
+            ),
+        )
+        return testCases.mapIndexed { i, (source, expected) ->
+            DynamicTest.dynamicTest("case $i should be $expected") {
+                val dfs = DirectedBreadthFirstSearch(graph, source)
+                val actual = mutableListOf<Int>()
+                for (v in 0 until graph.vertices) {
+                    if (dfs.marked(v)) {
+                        actual.add(v)
+                    }
+                }
+                assertEquals(expected, actual)
+            }
+        }
+
+    }
+
     companion object {
         /*
          * 0: 5 1
