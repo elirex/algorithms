@@ -81,7 +81,7 @@ class DGraphTest {
             }
         }
 
-        val expecteds= listOf(
+        val expected = listOf(
             listOf(3, 5, 4, 2, 0), // 3 to 0
             listOf(3, 5, 4, 2, 0, 1), // 3 to 1
             listOf(3, 5, 4, 2), // 3 to 2
@@ -99,7 +99,7 @@ class DGraphTest {
         val dfs = DepthFirstDirectedPaths(graph, 3)
         for (v in 0 until graph.vertices) {
             val actual = dfs.pathTo(v)?.toList() ?: emptyList()
-            assertContentEquals(expecteds[v], actual, "3 to $v")
+            assertContentEquals(expected[v], actual, "3 to $v")
         }
     }
 
@@ -138,6 +138,37 @@ class DGraphTest {
             }
         }
 
+    }
+
+    @Test
+    fun `breadth-first directed paths`() {
+        val graph = DGraph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+
+        val expected= listOf(
+            Pair(2, listOf(3, 2, 0)), // 3 to 0
+            Pair(3, listOf(3, 2, 0, 1)), // 3 to 1
+            Pair(1, listOf(3, 2)), // 3 to 2
+            Pair(0, listOf(3)), // 3 to 3
+            Pair(2, listOf(3, 5, 4)), // 3 to 4
+            Pair(1, listOf(3, 5)), // 3 to 5
+            Pair(-1, emptyList()), // 3 to 6
+            Pair(-1 ,emptyList()), // 3 to 7
+            Pair(-1, emptyList()), // 3 to 8
+            Pair(-1, emptyList()), // 3 to 9
+            Pair(-1, emptyList()), // 3 to 10
+            Pair(-1, emptyList()), // 3 to 11
+            Pair(-1, emptyList()), // 3 to 12
+        )
+        val bfs = BreadthFirstDirectedPaths(graph, 3)
+        for (v in 0 until graph.vertices) {
+            val actual = Pair(bfs.distTo(v), bfs.pathTo(v)?.toList() ?: emptyList())
+            assertEquals(expected[v], actual, "3 to $v")
+        }
     }
 
     companion object {
