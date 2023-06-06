@@ -1,5 +1,6 @@
 package com.elirex.algorithms.graph
 
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
@@ -169,6 +170,21 @@ class DGraphTest {
             val actual = Pair(bfs.distTo(v), bfs.pathTo(v)?.toList() ?: emptyList())
             assertEquals(expected[v], actual, "3 to $v")
         }
+    }
+
+    @Test
+    fun `directed cycle`() {
+        val graph = DGraph(13)
+        graph.apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+
+        val cycle = DirectedCycle(graph)
+
+        assertTrue(cycle.hasCycle())
+        assertEquals(listOf(3, 5, 4, 3), cycle.cycle()?.toList())
     }
 
     companion object {
