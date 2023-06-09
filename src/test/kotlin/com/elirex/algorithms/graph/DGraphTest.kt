@@ -187,6 +187,21 @@ class DGraphTest {
         assertEquals(listOf(3, 5, 4, 3), cycle.cycle()?.toList())
     }
 
+    @Test
+    fun `depth-first-order`() {
+        val graph = DGraph(13)
+        graph.apply {
+            tingDAG.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+
+        val dfs = DepthFirstOrder(graph)
+        assertEquals(listOf(0, 5, 4, 1, 6, 9, 11, 12, 10, 2 , 3, 7, 8), dfs.pre.toList())
+        assertEquals(listOf(4, 5, 1, 12, 11, 10, 9, 6, 0, 3, 2, 7, 8), dfs.post.toList())
+        assertEquals(listOf(8, 7, 2, 3, 0, 6, 9, 10, 11, 12, 1, 5, 4), dfs.reversePost.toList())
+    }
+
     companion object {
         /*
          * 0: 5 1
@@ -226,6 +241,39 @@ class DGraphTest {
             11 to 12,
             11 to 4,
             12 to 9
+        )
+
+        /*
+         * 0: 5, 1, 6
+         * 1:
+         * 2: 0, 3
+         * 3: 5
+         * 4:
+         * 5: 4
+         * 6: 9, 4
+         * 7: 6
+         * 8: 7
+         * 9: 11, 10, 12
+         * 10 :
+         * 11 : 12
+         * 12 :
+         */
+        val tingDAG = listOf(
+            0 to 6,
+            0 to 1,
+            0 to 5,
+            2 to 3,
+            2 to 0,
+            3 to 5,
+            5 to 4,
+            6 to 4,
+            6 to 9,
+            7 to 6,
+            8 to 7,
+            9 to 12,
+            9 to 10,
+            9 to 11,
+            11 to 12,
         )
     }
 }
