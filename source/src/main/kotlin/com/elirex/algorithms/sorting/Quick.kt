@@ -3,7 +3,6 @@ package com.elirex.algorithms.sorting
 import com.elirex.algorithms.utils.less
 import com.elirex.algorithms.utils.shuffle
 import com.elirex.algorithms.utils.swap
-import kotlin.random.Random
 
 object Quick {
 
