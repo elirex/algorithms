@@ -1,5 +1,7 @@
 package com.elirex.algorithms.graph
 
+import com.elirex.algorithms.queue.LinkedListQueue
+import com.elirex.algorithms.queue.Queue
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
@@ -213,6 +215,33 @@ class DGraphTest {
         val topological = Topological(graph)
         assertTrue(topological.hasOrder())
         assertEquals(listOf(8, 7, 2, 3, 0, 6, 9, 10, 11, 12, 1, 5, 4), topological.order?.toList())
+    }
+
+    @Test
+    fun `kosaraju sharis strongly connected component`() {
+        val graph = DGraph(13).apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+        val scc = KosarajuSharirSCC(graph)
+
+        assertEquals(5, scc.count)
+
+        val components: Array<Queue<Int>>  = Array(scc.count) { LinkedListQueue<Int>() }
+        for (v in 0 until graph.vertices) {
+            components[scc.id(v)].enqueue(v)
+        }
+        val expected = listOf(
+            listOf(1),
+            listOf(0, 2, 3, 4, 5),
+            listOf(9, 10, 11, 12),
+            listOf(6, 8),
+            listOf(7)
+        )
+        for (i in 0 until scc.count) {
+            assertEquals(expected[i], components[i].toList())
+        }
     }
 
     companion object {
