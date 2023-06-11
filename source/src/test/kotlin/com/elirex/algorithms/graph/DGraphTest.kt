@@ -244,6 +244,57 @@ class DGraphTest {
         }
     }
 
+    @Test
+    fun `transitive closure`() {
+        val graph = DGraph(13).apply {
+            tingGraph.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+
+        val tc = TransitiveClosure(graph)
+
+
+        val actual = Array(graph.vertices) { BooleanArray(graph.vertices) }
+        for (v in 0 until graph.vertices) {
+            print("$v")
+        }
+        println()
+        for (v in 0 until graph.vertices) {
+            print("   $v")
+            for (w in 0 until graph.vertices) {
+                actual[v][w] = tc.reachable(v, w)
+                if (actual[v][w]) {
+                    print("  T")
+                } else {
+                    print("   ")
+                }
+            }
+            println()
+        }
+
+
+        val expected = arrayOf(
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, false, false, false, false), // 0
+            booleanArrayOf(false, true, false, false, false, false, false, false, false, false, false, false, false), // 1
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, false, false, false, false), // 2
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, false, false, false, false), // 3
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, false, false, false, false), // 4
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, false, false, false, false), // 5
+            booleanArrayOf(true, true, true, true, true, true, true, false, true, true, true, true, true), // 6
+            booleanArrayOf(true, true, true, true, true, true, true, true, true, true, true, true, true), // 7
+            booleanArrayOf(true, true, true, true, true, true, true, false, true, true, true, true, true), // 8
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, true, true, true, true), // 9
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, true, true, true, true), // 10
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, true, true, true, true), // 11
+            booleanArrayOf(true, true, true, true, true, true, false, false, false, true, true, true, true), // 12
+        )
+
+        for (v in 0 until graph.vertices) {
+            assertContentEquals(expected[v], actual[v], "$v")
+        }
+    }
+
     companion object {
         /*
          * 0: 5 1
@@ -261,28 +312,28 @@ class DGraphTest {
          * 12: 9
          */
         val tingGraph = listOf(
-            0 to 1,
-            0 to 5,
-            2 to 3,
-            2 to 0,
-            3 to 2,
-            3 to 5,
-            4 to 2,
-            4 to 3,
-            6 to 0,
-            6 to 8,
-            6 to 4,
-            6 to 9,
-            5 to 4,
-            7 to 9,
-            7 to 6,
-            8 to 6,
-            9 to 10,
-            9 to 11,
-            10 to 12,
-            11 to 12,
-            11 to 4,
-            12 to 9
+            // 0 to 1,
+            // 0 to 5,
+            // 2 to 3,
+            // 2 to 0,
+            // 3 to 2,
+            // 3 to 5,
+            // 4 to 2,
+            // 4 to 3,
+            // 6 to 0,
+            // 6 to 8,
+            // 6 to 4,
+            // 6 to 9,
+            // 5 to 4,
+            // 7 to 9,
+            // 7 to 6,
+            // 8 to 6,
+            // 9 to 10,
+            // 9 to 11,
+            // 10 to 12,
+            // 11 to 12,
+            // 11 to 4,
+            // 12 to 9
         )
 
         /*
