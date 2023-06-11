@@ -202,6 +202,19 @@ class DGraphTest {
         assertEquals(listOf(8, 7, 2, 3, 0, 6, 9, 10, 11, 12, 1, 5, 4), dfs.reversePost.toList())
     }
 
+    @Test
+    fun `topological`() {
+        val graph = DGraph(13).apply {
+            tingDAG.forEach { (v, w) ->
+                addEdge(v, w)
+            }
+        }
+
+        val topological = Topological(graph)
+        assertTrue(topological.hasOrder())
+        assertEquals(listOf(8, 7, 2, 3, 0, 6, 9, 10, 11, 12, 1, 5, 4), topological.order?.toList())
+    }
+
     companion object {
         /*
          * 0: 5 1
