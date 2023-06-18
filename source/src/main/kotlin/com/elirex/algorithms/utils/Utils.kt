@@ -15,6 +15,13 @@ fun <T: Comparable<T>> less(a: T, b: T, comparator: Comparator<T>? = null): Bool
     }
 }
 
+fun <T: Comparable<T>> greater(a: T, b: T, comparator: Comparator<T>? = null): Boolean {
+    return when (comparator) {
+        null -> a > b
+        else -> comparator.compare(a, b) > 0
+    }
+}
+
 
 fun <T> shuffle(array: Array<T>) {
     val rand = Random(System.currentTimeMillis())
