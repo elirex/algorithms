@@ -3,7 +3,7 @@ package com.elirex.algorithms.graph
 import com.elirex.algorithms.bag.Bag
 import com.elirex.algorithms.bag.LinkedListBag
 
-class EdgeWeightGraph(
+class EdgeWeightedGraph(
     val vertices: Int,
 ) {
     private var edges: Int  = 0

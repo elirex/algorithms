@@ -3,11 +3,11 @@ package com.elirex.algorithms.graph
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class EdgeWeightGraphTest {
+class EdgeWeightedGraphTest {
 
     @Test
     fun `edge weight graph`() {
-        val graph = EdgeWeightGraph(8).apply {
+        val graph = EdgeWeightedGraph(8).apply {
             tinyEWG.forEach { e ->
                 addEdge(e)
             }
