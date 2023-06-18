@@ -6,7 +6,8 @@ import com.elirex.algorithms.bag.LinkedListBag
 class EdgeWeightedGraph(
     val vertices: Int,
 ) {
-    private var edges: Int  = 0
+    var edges: Int  = 0
+        private set
     private val adj: Array<Bag<Edge>>
 
     init {
