@@ -29,6 +29,29 @@ class MSTTest {
         )
     }
 
+    @Test
+    fun `eager prim MST`() {
+        val graph = EdgeWeightedGraph(8).apply {
+            tinyEWG.forEach { e ->
+                addEdge(e)
+            }
+        }
+        val mst = EagerPrimMST(graph)
+        assertEquals(1.81000, mst.weight)
+        assertEquals(
+            expected = listOf(
+                Edge(v=1, w=7, weight=0.19),
+                Edge(v=0, w=2, weight=0.26),
+                Edge(v=2, w=3, weight=0.17),
+                Edge(v=4, w=5, weight=0.35),
+                Edge(v=5, w=7, weight=0.28),
+                Edge(v=6, w=2, weight=0.4),
+                Edge(v=0, w=7, weight=0.16),
+            ),
+            actual = mst.edges().toList()
+        )
+    }
+
     companion object {
         // total vertices 8
         // total edges 16
