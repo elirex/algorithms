@@ -1,16 +1,32 @@
 package com.elirex.algorithms.graph
 
-class Topological(
-    graph: DGraph,
-) {
+class Topological {
 
     val order: Iterable<Int>?
     private val rank: Array<Int>
 
-    init {
+    constructor(
+        graph: DGraph,
+    ) {
         val finder = DirectedCycle(graph)
         rank = Array(graph.vertices) { -1 }
         if (!finder.hasCycle()) {
+            val dfs = DepthFirstOrder(graph)
+            order = dfs.reversePost
+            order.forEachIndexed { i, v ->
+                rank[v] = i
+            }
+        } else {
+            order = null
+        }
+    }
+
+    constructor(
+        graph: EdgeWeightedDGraph,
+    ) {
+        val finder = EdgeWeightedDirectedCycle(graph)
+        rank = Array(graph.vertices) { -1 }
+        if (!finder.hasCycle) {
             val dfs = DepthFirstOrder(graph)
             order = dfs.reversePost
             order.forEachIndexed { i, v ->
