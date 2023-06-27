@@ -153,6 +153,91 @@ class SPTest {
         }
     }
 
+    @Test
+    fun `acyclic longest paths`() {
+        val graph = EdgeWeightedDGraph(8).apply {
+            tinyEWDAG.forEach { e ->
+                addEdge(e)
+            }
+        }
+        val source = 5
+        val sp = AcyclicLongestPaths(graph, source)
+
+        val expectedHasPathToAndDistance = listOf(
+            true to 2.44, // 5 to 0
+            true to 0.32, // 5 to 1
+            true to 2.77, // 5 to 2
+            true to 0.61, // 5 to 3
+            true to 2.06, // 5 to 4
+            true to 0.0, // 5 to 5
+            true to 1.13, // 5 to 6
+            true to 2.43, // 5 to 7
+        )
+
+        val expectedPath = listOf(
+            // 5 to 0
+            listOf(
+                DirectedEdge(5,  1,  0.32),
+                DirectedEdge(1,  3,  0.29),
+                DirectedEdge(3,  6,  0.52),
+                DirectedEdge(6,  4,  0.93),
+                DirectedEdge(4,  0,  0.38),
+            ),
+            // 5 to 1
+            listOf(
+                DirectedEdge(5,  1,  0.32),
+            ),
+            // 5 to 2
+            listOf(
+                DirectedEdge(5,  1,  0.32),
+                DirectedEdge(1,  3,  0.29),
+                DirectedEdge(3,  6,  0.52),
+                DirectedEdge(6,  4,  0.93),
+                DirectedEdge(4,  7,  0.37),
+                DirectedEdge(7,  2,  0.34),
+            ),
+            // 5 to 3
+            listOf(
+                DirectedEdge(5,  1,  0.32),
+                DirectedEdge(1,  3,  0.29),
+            ),
+            // 5 to 4
+            listOf(
+                DirectedEdge(5,  1,  0.32),
+                DirectedEdge(1,  3,  0.29),
+                DirectedEdge(3,  6,  0.52),
+                DirectedEdge(6,  4,  0.93),
+            ),
+            // 5 to 5
+            emptyList(),
+            // 5 to 6
+            listOf(
+                DirectedEdge(5,  1,  0.32),
+                DirectedEdge(1,  3,  0.29),
+                DirectedEdge(3,  6,  0.52),
+            ),
+            // 5 to 7
+            listOf(
+                DirectedEdge(5,  1,  0.32),
+                DirectedEdge(1,  3,  0.29),
+                DirectedEdge(3,  6,  0.52),
+                DirectedEdge(6,  4,  0.93),
+                DirectedEdge(4,  7,  0.37),
+            ),
+        )
+
+        val df = DecimalFormat("#.##").apply {
+            roundingMode = RoundingMode.HALF_UP
+        }
+        for (v in 0 until graph.vertices) {
+            val (expectedHasPathTo, expectedDistance) = expectedHasPathToAndDistance[v]
+            assertEquals(expectedHasPathTo, sp.hasPathTo(v), "vertex $v")
+            assertEquals(df.format(expectedDistance), df.format(sp.distanceTo(v)), "vertex $v")
+
+            assertEquals(expectedPath[v], sp.pathTo(v)?.toList(), "vertex $v")
+        }
+    }
+
 
     companion object {
         // total vertices 8
