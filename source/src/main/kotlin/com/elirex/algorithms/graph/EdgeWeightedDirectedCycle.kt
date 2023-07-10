@@ -21,8 +21,11 @@ class EdgeWeightedDirectedCycle(
         marked = Array(graph.vertices) { false }
         edgeTo = Array(graph.vertices) { null }
         onStack = Array(graph.vertices) { false }
-
-
+        for (v in 0 until graph.vertices) {
+            if (!marked[v]) {
+                dfs(graph, v)
+            }
+        }
     }
 
     private fun dfs(graph: EdgeWeightedDGraph, v: Int) {
