@@ -3,6 +3,7 @@ package com.elirex.algorithms.graph
 import org.junit.jupiter.api.Test
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import kotlin.math.E
 import kotlin.test.assertEquals
 
 class SPTest {
@@ -236,6 +237,70 @@ class SPTest {
 
             assertEquals(expectedPath[v], sp.pathTo(v)?.toList(), "vertex $v")
         }
+    }
+
+    @Test
+    fun `critical path method`() {
+        val n = 10
+        val source = 2 * n
+        val sink = 2 * n + 1
+
+        val graph = EdgeWeightedDGraph(2 * n + 2)
+        val durations = listOf(
+            41.0,
+            51.0,
+            50.0,
+            36.0,
+            38.0,
+            45.0,
+            21.0,
+            32.0,
+            32.0,
+            29.0,
+        )
+        val precedenceConstraints = listOf(
+            listOf(1, 7, 9),
+            listOf(2),
+            emptyList(),
+            emptyList(),
+            emptyList(),
+            emptyList(),
+            listOf(3, 8),
+            listOf(3, 8),
+            listOf(2),
+            listOf(4, 6),
+        )
+        for (i in 0 until n) {
+            val duration = durations[i]
+            graph.addEdge(DirectedEdge(source, i , 0.0))
+            graph.addEdge(DirectedEdge(i + n, sink , 0.0))
+            graph.addEdge(DirectedEdge(i, i + n , duration))
+
+            precedenceConstraints[i].forEach { precedent ->
+                graph.addEdge(DirectedEdge(n + i, precedent, 0.0))
+            }
+        }
+
+        val cmp = CriticalPathMethod(graph, source)
+
+        val expected = listOf(
+          Pair(0.0, 41.0), // 0
+          Pair(41.0, 92.0), //1
+          Pair(123.0, 173.0), // 2
+          Pair(91.0, 127.0), // 3
+          Pair(70.0, 108.0), // 4
+          Pair(0.0, 45.0), // 5
+          Pair(70.0, 91.0), //6
+          Pair(41.0, 73.0), // 7
+          Pair(91.0, 123.0), // 8
+          Pair(41.0, 70.0), // 9
+        )
+        val expectedFinishTime = 173.0
+
+        for (i in 0 until n) {
+            assertEquals(expected[i], Pair(cmp.distanceTo(i), cmp.distanceTo(i + n)))
+        }
+        assertEquals(expectedFinishTime, cmp.distanceTo(sink))
     }
 
 
