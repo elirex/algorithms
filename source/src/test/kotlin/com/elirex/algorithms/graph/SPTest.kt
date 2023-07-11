@@ -3,7 +3,6 @@ package com.elirex.algorithms.graph
 import org.junit.jupiter.api.Test
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import kotlin.math.E
 import kotlin.test.assertEquals
 
 class SPTest {
@@ -303,8 +302,94 @@ class SPTest {
         assertEquals(expectedFinishTime, cmp.distanceTo(sink))
     }
 
+    @Test
+    fun `bellman ford shortest paths`() {
+        val expectedDistance = listOf(
+            0.0, // 0 to 0
+            0.93, // 0 to 1
+            0.26, // 0 to 2
+            0.99, // 0 to 3
+            0.26, // 0 to 4
+            0.61, // 0 to 5
+            1.51, // 0 to 6
+            0.6, // 0 to 7
+        )
+
+        val expectedPath = listOf(
+            // 0 to 0
+            emptyList(),
+            // 0 to 1
+            listOf(
+                DirectedEdge(0,  2,  0.26),
+                DirectedEdge(2,  7,  0.34),
+                DirectedEdge(7,  3,  0.39),
+                DirectedEdge(3,  6,  0.52),
+                DirectedEdge(6,  4,  -1.25),
+                DirectedEdge(4,  5,  0.35),
+                DirectedEdge(5,  1,  0.32),
+            ),
+            // 0 to 2
+            listOf(
+                DirectedEdge(0,  2,  0.26),
+            ),
+            // 0 to 3
+            listOf(
+                DirectedEdge(0,  2,  0.26),
+                DirectedEdge(2,  7,  0.34),
+                DirectedEdge(7,  3,  0.39),
+            ),
+            // 0 to 4
+            listOf(
+                DirectedEdge(0,  2,  0.26),
+                DirectedEdge(2,  7,  0.34),
+                DirectedEdge(7,  3,  0.39),
+                DirectedEdge(3,  6,  0.52),
+                DirectedEdge(6,  4,  -1.25),
+            ),
+            // 0 to 5
+            listOf(
+                DirectedEdge(0,  2,  0.26),
+                DirectedEdge(2,  7,  0.34),
+                DirectedEdge(7,  3,  0.39),
+                DirectedEdge(3,  6,  0.52),
+                DirectedEdge(6,  4,  -1.25),
+                DirectedEdge(4,  5,  0.35),
+            ),
+            // 0 to 6
+            listOf(
+                DirectedEdge(0,  2,  0.26),
+                DirectedEdge(2,  7,  0.34),
+                DirectedEdge(7,  3,  0.39),
+                DirectedEdge(3,  6,  0.52),
+            ),
+            // 0 to 7
+            listOf(
+                DirectedEdge(0,  2,  0.26),
+                DirectedEdge(2,  7,  0.34),
+            ),
+        )
+        val graph = EdgeWeightedDGraph(8).apply {
+            tinyEWDGn.forEach { e ->
+                addEdge(e)
+            }
+        }
+        val source = 0
+
+        val sp = BellmanFordSP(graph, source)
+
+        for (v in 0 until graph.vertices) {
+            assertEquals(df.format(expectedDistance[v]), df.format(sp.distanceTo(v)), "vertex $v")
+            assertEquals(expectedPath[v], sp.pathTo(v)?.toList(), "vertex $v")
+        }
+    }
+
 
     companion object {
+        private val df = DecimalFormat("#.##").apply {
+            roundingMode = RoundingMode.HALF_UP
+        }
+
+
         // total vertices 8
         // total edges 15
         private val tinyEWDG = listOf<DirectedEdge>(
@@ -341,6 +426,26 @@ class SPTest {
             DirectedEdge(3,  6,  0.52),
             DirectedEdge(6,  0,  0.58),
             DirectedEdge(6,  4,  0.93),
+        )
+
+        // total vertices 8
+        // total edges 15
+        private val tinyEWDGn = listOf<DirectedEdge>(
+            DirectedEdge(4,  5,  0.35),
+            DirectedEdge(5,  4,  0.35),
+            DirectedEdge(4,  7,  0.37),
+            DirectedEdge(5,  7,  0.28),
+            DirectedEdge(7,  5,  0.28),
+            DirectedEdge(5,  1,  0.32),
+            DirectedEdge(0,  4,  0.38),
+            DirectedEdge(0,  2,  0.26),
+            DirectedEdge(7,  3,  0.39),
+            DirectedEdge(1,  3,  0.29),
+            DirectedEdge(2,  7,  0.34),
+            DirectedEdge(6,  2,  -1.2),
+            DirectedEdge(3,  6,  0.52),
+            DirectedEdge(6,  0,  -1.4),
+            DirectedEdge(6,  4,  -1.25),
         )
     }
 }
