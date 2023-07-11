@@ -383,6 +383,45 @@ class SPTest {
         }
     }
 
+    @Test
+    fun `arbitrage`() {
+        data class Currency(val name: String, val rates: List<Double>)
+        val currencies = listOf(
+            Currency("USD", rates = listOf(1.0, 0.741, 0.657, 1.061, 1.005)),
+            Currency("EUR", rates = listOf(1.349, 1.0, 0.888, 1.433, 1.366)),
+            Currency("GBP", rates = listOf(1.521, 1.126, 1.0, 1.614, 1.538)),
+            Currency("CHF", rates = listOf(0.942, 0.698, 0.619, 1.0, 0.953)),
+            Currency("CAD", rates = listOf(0.995, 0.732, 0.650, 1.049, 1.0)),
+        )
+
+        val expecteds = listOf(
+            "1000.00000 USD = 741.00000 EUR",
+            "741.00000 EUR = 1012.20600 CAD",
+            "1012.20600 CAD = 1007.14497 USD",
+        )
+        val graph = EdgeWeightedDGraph(currencies.size)
+        for (v in currencies.indices) {
+            val currency = currencies[v]
+            for (w in currencies.indices) {
+                graph.addEdge(DirectedEdge(v, w, -Math.log(currency.rates[w])))
+            }
+        }
+
+        val df = DecimalFormat(".00000").apply {
+            roundingMode = RoundingMode.HALF_UP
+        }
+        val sp = BellmanFordSP(graph, 0)
+        var stake = 1000.0
+        sp.negativeCycle?.forEachIndexed { i, edge ->
+            val from = "${df.format(stake)} ${currencies[edge.from].name}"
+            stake *= Math.exp(-edge.weight)
+            val to = "${df.format(stake)} ${currencies[edge.to].name}"
+            val actual = "$from = $to"
+            assertEquals(expecteds[i], actual)
+        }
+
+    }
+
 
     companion object {
         private val df = DecimalFormat("#.##").apply {
