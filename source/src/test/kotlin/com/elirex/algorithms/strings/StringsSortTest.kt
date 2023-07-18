@@ -3,7 +3,7 @@ package com.elirex.algorithms.strings
 import org.junit.jupiter.api.Test
 import kotlin.test.assertContentEquals
 
-class StringTest {
+class StringsSortTest {
 
     @Test
     fun `least-significant-digit (LSD)`() {
@@ -29,6 +29,35 @@ class StringTest {
         )
 
         LSD.sort(strings, w)
+
+        assertContentEquals(expected, strings)
+    }
+
+    @Test
+    fun `most-significant-digit (MSD)`() {
+        val strings = arrayOf(
+            "she", "sells", "seashells", "by", "the", "sea", "shore",
+            "the", "shells", "she", "sells", "are", "surely", "seashells",
+        )
+
+        val expected = arrayOf(
+            "are",
+            "by",
+            "sea",
+            "seashells",
+            "seashells",
+            "sells",
+            "sells",
+            "she",
+            "she",
+            "shells",
+            "shore",
+            "surely",
+            "the",
+            "the",
+        )
+
+        MSD.sort(strings)
 
         assertContentEquals(expected, strings)
     }
