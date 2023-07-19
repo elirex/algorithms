@@ -61,4 +61,33 @@ class StringsSortTest {
 
         assertContentEquals(expected, strings)
     }
+
+    @Test
+    fun `three-way string quicksort`() {
+        val strings = arrayOf(
+            "she", "sells", "seashells", "by", "the", "sea", "shore",
+            "the", "shells", "she", "sells", "are", "surely", "seashells",
+        )
+
+        val expected = arrayOf(
+            "are",
+            "by",
+            "sea",
+            "seashells",
+            "seashells",
+            "sells",
+            "sells",
+            "she",
+            "she",
+            "shells",
+            "shore",
+            "surely",
+            "the",
+            "the",
+        )
+
+        Quick3string.sort(strings)
+
+        assertContentEquals(expected, strings)
+    }
 }
