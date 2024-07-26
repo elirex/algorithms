@@ -90,19 +90,19 @@ class PriorityQueueTest {
         TestCase.Size(6),
     )
 
-    private sealed interface TestCase {
-        data class Push(
-            val data: String,
+    private sealed interface TestCase<T> {
+        data class Push<T>(
+            val data: T,
             val expected: Int
-        ) : TestCase
-        data class Peek(
-            val expected: String
-        ) : TestCase
-        data class Pop(
-            val expected: String,
-        ) : TestCase
-        data class Size(
+        ) : TestCase<T>
+        data class Peek<T>(
+            val expected: T
+        ) : TestCase<T>
+        data class Pop<T>(
+            val expected: T,
+        ) : TestCase<T>
+        data class Size<T>(
             val expected: Int,
-        ) : TestCase
+        ) : TestCase<T>
     }
 }
