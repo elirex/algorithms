@@ -15,7 +15,7 @@ class NFATest {
         )
         val cases = listOf(
             Cases(
-                regexp = "(A*B|AC)D",
+                regexp = "((A*B|AC)D)",
                 text = "AAAABD",
                 expected = true,
             ),
